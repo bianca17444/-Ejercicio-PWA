@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { RegistroServiceWorker } from "./RegistroServiceWorker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,25 +19,17 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
-'use client';
-
-import { useEffect } from 'react';
-
-export function RegistroServiceWorker() {
-  useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .then(() => console.log('Service Worker registrado'))
-        .catch((error) => console.error('Error al registrar:', error));
-    }
-  }, []);
-  return null;
-}
-
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}<RegistroServiceWorker /></body>
+    <html lang="es" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body>
+        {children}
+        <RegistroServiceWorker />
+      </body>
     </html>
   );
 }
